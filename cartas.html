@@ -16,6 +16,20 @@
       margin-bottom: 20px;
     }
 
+    .comentario {
+      background-color: #f1f1f1;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .comentario strong {
+      font-weight: bold;
+    }
+
+    .comentario p {
+      margin: 0;
+    }
+
     #formulario-comentario input[type="text"],
     #formulario-comentario textarea {
       width: 100%;
@@ -76,7 +90,8 @@
 
       // Crea un nuevo elemento de comentario
       const nuevoComentario = document.createElement('div');
-      nuevoComentario.innerHTML = '<strong>' + nombre + '</strong>: ' + mensaje;
+      nuevoComentario.classList.add('comentario');
+      nuevoComentario.innerHTML = '<strong>' + nombre + '</strong><p>' + mensaje + '</p>';
 
       // Agrega el comentario a la lista
       listaComentarios.appendChild(nuevoComentario);
