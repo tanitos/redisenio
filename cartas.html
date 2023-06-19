@@ -1,177 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-  
+  <title>Mi página con comentarios</title>
   <style>
-    nav {
-      background-color: purple;
-      display: flex;
-      align-items: center;
-      padding: 10px;
-    }
-
-    nav img {
-      width: 50px;
-      margin-right: 10px;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    nav ul li {
-      display: inline-block;
-      margin-right: 10px;
-    }
-
-    nav ul li a {
-      font-family: Arial, sans-serif;
-      color: white;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <img src="ruta_de_la_imagen.png" alt="Logo">
-    <ul>
-      <li><a href="cartas.html">Cartas</a></li>
-      <li><a href="#">Conócenos</a></li>
-    </ul>
-  </nav>
-  
-  
-  <title>Galería con Modal</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
+      font-family: Verdana, sans-serif;
+      color: black;
     }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-gap: 10px;
+    h1, h2 {
+      color: black;
     }
 
-    .gallery-item {
-      position: relative;
-      padding-bottom: 100%;
-      overflow: hidden;
+    #comentarios {
+      margin-bottom: 20px;
     }
 
-    .gallery-item img {
-      position: absolute;
+    #formulario-comentario input[type="text"],
+    #formulario-comentario textarea {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-      margin: 10% auto;
-      width: 80%;
-      max-width: 800px;
-      text-align: center;
-      position: relative;
-    }
-
-    .modal-content img {
-      width: 100%;
-      height: auto;
-    }
-
-    .modal-close {
-      color: #fff;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: bold;
+      padding: 10px;
       margin-bottom: 10px;
     }
 
-    .paragraph {
-      font-size: 16px;
-      margin-bottom: 20px;
+    #formulario-comentario button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Cartas</h1>
-  <p>Un pequeño párrafo sobre las cartas.</p>
-  <div class="gallery">
-    <div class="gallery-item">
-      <img src="cartas/1.jpg" alt="Imagen 1" onclick="openModal('cartas/1.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/3.jpg" alt="Imagen 2" onclick="openModal('cartas/3.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/4.jpg" alt="Imagen 3" onclick="openModal('cartas/4.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/6.jpg" alt="Imagen 4" onclick="openModal('cartas/6.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/7.jpg" alt="Imagen 5" onclick="openModal('cartas/7.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/9.jpg" alt="Imagen 6" onclick="openModal('cartas/9.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/11.jpg" alt="Imagen 7" onclick="openModal('cartas/11.jpg')">
-    </div>
-    <div class="gallery-item">
-      <img src="cartas/12.jpg" alt="Imagen 8" onclick="openModal('cartas/12.jpg')">
-    </div>
+  <h1>Comentarios</h1>
+
+  <div id="comentarios">
+    <!-- Aquí se mostrarán los comentarios -->
   </div>
 
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal()">&times;</span>
-      <img id="modal-image" src="">
-    </div>
-  </div>
+  <h2>Agregar comentario</h2>
+
+  <form id="formulario-comentario">
+    <input type="text" id="nombre" placeholder="Nombre" required><br>
+    <textarea id="mensaje" placeholder="Escribe tu comentario" required></textarea><br>
+    <button type="submit">Enviar</button>
+  </form>
 
   <script>
-    function openModal(imageSrc) {
-      var modal = document.getElementById("modal");
-      var modalImage = document.getElementById("modal-image");
-      modal.style.display = "block";
-      modalImage.src = imageSrc;
+    // Obtén una referencia al formulario y la lista de comentarios
+    const formulario = document.getElementById('formulario-comentario');
+    const listaComentarios = document.getElementById('comentarios');
+
+    // Carga los comentarios almacenados en el almacenamiento local
+    function cargarComentarios() {
+      const comentarios = localStorage.getItem('comentarios');
+
+      if (comentarios) {
+        listaComentarios.innerHTML = comentarios;
+      }
     }
 
-    function closeModal() {
-      var modal = document.getElementById("modal");
-      modal.style.display = "none";
+    // Guarda los comentarios en el almacenamiento local
+    function guardarComentarios() {
+      localStorage.setItem('comentarios', listaComentarios.innerHTML);
     }
-    
+
+    // Escucha el evento de envío del formulario
+    formulario.addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita que el formulario se envíe por defecto
+
+      // Obtén los valores del formulario
+      const nombre = document.getElementById('nombre').value;
+      const mensaje = document.getElementById('mensaje').value;
+
+      // Crea un nuevo elemento de comentario
+      const nuevoComentario = document.createElement('div');
+      nuevoComentario.innerHTML = '<strong>' + nombre + '</strong>: ' + mensaje;
+
+      // Agrega el comentario a la lista
+      listaComentarios.appendChild(nuevoComentario);
+
+      // Restablece los campos del formulario
+      formulario.reset();
+
+      // Guarda los comentarios en el almacenamiento local
+      guardarComentarios();
+    });
+
+    // Carga los comentarios al cargar la página
+    window.addEventListener('load', cargarComentarios);
   </script>
 </body>
 </html>
